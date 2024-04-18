@@ -5,7 +5,7 @@ election_data_csv = os.path.join('Resources', 'election_data.csv')
 
 # Needed variables for csv
 total_votes = 0
-max_votes = 0
+
 
 # Open and read csv
 with open(election_data_csv, encoding='UTF-8') as csv_file:
@@ -17,8 +17,7 @@ with open(election_data_csv, encoding='UTF-8') as csv_file:
 # Create an open dictionary for candidates-unknown names
     candidate_votes = {}    
 # Total number of votes cast
-# A complete list of candidates who received votes-tracking candidate names
-# The total number of votes each candidate won
+# List of candidates who received votes-tracking names and total number of votes each candidate got
 
     for row in csv_reader:
         # To track voting total and total votes per candidate
@@ -32,30 +31,31 @@ with open(election_data_csv, encoding='UTF-8') as csv_file:
             candidate_votes[name]=1
 
 # The percentage of votes each candidate won
+    votes_percentage = {} 
+    # for name in candidate_votes:
     for name in candidate_votes:
-        votes_percentage = (candidate_votes[name])/total_votes
+        votes_percentage[name] = round((candidate_votes[name])/total_votes*100, ndigits = 3)
 
 # The winner of the election based on popular vote
     #candidate with max_percentage?
-# winner = max(candidate_votes[name])
+    winner = max(candidate_votes, key=candidate_votes.get)
 
 # Print the result
 
-election_summary = "Election Results"
-election_summary = "----------------------------------------------------------\n"
+election_summary = "Election Results\n"
+election_summary +="----------------------------------------------------------\n"
 election_summary +=f"Total votes= {total_votes}\n"
-election_summary = "----------------------------------------------------------\n"
+election_summary += "----------------------------------------------------------\n"
 for name in candidate_votes.keys():
-    election_summary+=f'{name} {candidate_votes[name]} {votes_percentage}\n'
-election_summary = "----------------------------------------------------------\n"
-# election_summary =f'"Winner" + {winner}\n'
-print("Election Results")
+    election_summary+=f'{name} {votes_percentage[name]}% ({candidate_votes[name]})\n'
+election_summary += "----------------------------------------------------------\n"
+election_summary +=f'"Our winner is:  {winner}"\n'
 print (election_summary)
 
 # Export to text file 
-#output = os.path.join('Analysis', 'Election_results')
-#with open(output, "w", newline='') as datafile:
-    #writer = csv.writer(datafile) 
+output = os.path.join('Analysis', 'Election_results')
+with open(output, "w", newline='') as datafile:
+    writer = csv.writer(datafile) 
 
-    #print("Election Results", file=datafile)
-    #print(bank_summary, file=datafile)
+    print("Election Results", file=datafile)
+    print("election_summary", file=datafile)

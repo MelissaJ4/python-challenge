@@ -76,7 +76,14 @@ with open(budget_data_csv, encoding='UTF-8') as csv_file:
     bank_summary+=f'Average= ${average}\n'
     bank_summary+=f'Greatest Increase in Profits= {max_date}  (${max_value})\n'
     bank_summary+=f'Greatest Decrease in Profits= {min_date}  (${min_value})\n'
-    print("Financial Analysis")
-    print(bank_summary)
+
+# Export to text file 
+output = os.path.join('Analysis', 'Bank_analysis')
+with open(output, "w", newline='') as datafile:
+    writer = csv.writer(datafile) 
+
+    print("Financial Analysis", file=datafile)
+    print(bank_summary, file=datafile)
+
 
 
